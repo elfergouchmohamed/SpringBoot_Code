@@ -1,4 +1,10 @@
 pipeline {
+    environment {
+        GITHUB_CREDENTIALS = 'dfcb3cb6-d9f8-474e-8a68-f17d371665c9'
+        GITHUB_URL = 'https://github.com/elfergouchmohamed/SpringBoot_Code/tree/master/Cinema_Code'
+        GITHUB_BRANCH = 'master'
+
+    } 
     agent any
     stages {
         stage('Start the Jenkins Agent') {
@@ -8,6 +14,18 @@ pipeline {
             steps {
                 script {
                     sh 'az vm start -g jenkins-rg -n jenkins-vm'
+                }
+            }
+            printMessage('Jenkins Agent is starting')
+            sleep(time: 120, unit: 'SECONDS')
+            stages {
+                agent {
+                    label 'Jenkins-Agent'
+                }
+                stage('Clone the code source') {
+                    steps {
+                        git url: "${GIT_URL}", branch: "${GIT_BRANCH}", credentialsId: "${GIT_CREDENTIALS}"
+                    }
                 }
             }
         }
