@@ -7,7 +7,7 @@ pipeline {
     } 
     agent any
     stages {
-        stage('Start the Jenkins Agent') {
+        stage('Start the jenkins Agent') {
             agent { 
                 label 'Jenkins-Master' 
                 }
@@ -16,18 +16,21 @@ pipeline {
                     sh 'az vm start -g jenkins-rg -n jenkins-vm'
                 }
             }
-            printMessage('Jenkins Agent is starting')
-            sleep(time: 120, unit: 'SECONDS')
-            stages {
-                agent {
-                    label 'Jenkins-Agent'
-                }
-                stage('Clone the code source') {
-                    steps {
-                        git url: "${GIT_URL}", branch: "${GIT_BRANCH}", credentialsId: "${GIT_CREDENTIALS}"
-                    }
-                }
+        }
+        printMessage('Jenkins Agent is starting')
+        sleep(time: 100, unit: 'SECONDS')
+        stage('Clone the code source') {
+            steps {
+                git url: "${GITHUB_URL}", branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}"
+            }      
+        }
+        stage('Build the code') {
+            agent {
+            label 'Jenkins-Agent'
+            }
+            steps {
+                sh 'mvn clean package'
             }
         }
-    }
+    }        
 }
