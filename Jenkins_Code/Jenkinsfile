@@ -1,0 +1,12 @@
+pipeline {
+    stages {
+        agent { label 'slave-vm' }
+        stage('Start the Jenkins Agent') {
+            steps {
+                script {
+                 sh 'az vm start -g jenkins-rg -n jenkins-vm'
+                }
+            }
+        }
+    }
+}
