@@ -1,6 +1,6 @@
 pipeline {
     stages {
-        agent { label 'slave-vm' }
+        agent { label 'Jenkins-Master' }
         stage('Start the Jenkins Agent') {
             steps {
                 script {
