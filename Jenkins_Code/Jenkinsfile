@@ -1,10 +1,10 @@
 pipeline {
     stages {
-        agent { label 'Jenkins-Master' }
         stage('Start the Jenkins Agent') {
+            agent { label 'Jenkins-Master' }
             steps {
                 script {
-                 sh 'az vm start -g jenkins-rg -n jenkins-vm'
+                    sh 'az vm start -g jenkins-rg -n jenkins-vm'
                 }
             }
         }
