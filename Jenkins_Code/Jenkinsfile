@@ -31,7 +31,6 @@
                     }
                 }      
             }
-
             /*
             stage('Accept maven license') {
                 agent {
@@ -39,11 +38,10 @@
                 }
                 steps {
                     script {
-                        sh 'source /etc/profile.d/maven.sh'
+                        sh 'cd cd /opt & source /etc/profile.d/maven.sh'
                     }
                 }
             }
-            */
 
             stage('Build the code') {
                 agent {
@@ -51,11 +49,11 @@
                 }
                 steps {
                     script {
-                        sh 'mvn clean package'
+                        sh 'cd /home/jenkins/jenkins-agent/workspace/PFA Project/Cinema_Code & mvn clean package'
                     }
                 }
             }
-            /*
+            
             stage('Stop the Jenkins Agent') {
                 agent {
                     label 'Jenkins-Master'
