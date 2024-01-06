@@ -30,6 +30,17 @@
                 }      
             }
 
+            stage('Accept maven license') {
+                agent {
+                    label 'Jenkins-Agent'
+                }
+                steps {
+                    script {
+                        sh 'source /etc/profile.d/maven.sh'
+                    }
+                }
+            }
+
             stage('Build the code') {
                 agent {
                     label 'Jenkins-Agent'
