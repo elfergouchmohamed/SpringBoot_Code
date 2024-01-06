@@ -1,44 +1,55 @@
-pipeline {
-    environment {
-        GITHUB_CREDENTIALS = 'dfcb3cb6-d9f8-474e-8a68-f17d371665c9'
-        GITHUB_URL = 'https://github.com/elfergouchmohamed/SpringBoot_Code.git'  
-        GITHUB_BRANCH = 'master'
-    } 
-    agent any
-    stages {
-        stage('Start the Jenkins Agent') {
-            agent { 
-                label 'Jenkins-Master' 
-            }
-            steps {
-                script {
-                    sh 'az vm start -g jenkins-rg -n jenkins-vm'
+    pipeline {
+        environment {
+            GITHUB_CREDENTIALS = 'dfcb3cb6-d9f8-474e-8a68-f17d371665c9'
+            GITHUB_URL = 'https://github.com/elfergouchmohamed/SpringBoot_Code.git'  
+            GITHUB_BRANCH = 'master'
+        } 
+        agent any
+        stages {
+            stage('Start the Jenkins Agent') {
+                agent { 
+                    label 'Jenkins-Master' 
                 }
-                echo 'Wait 60 seconds for the Jenkins Agent to start'
-                sleep(time: 60, unit: 'SECONDS')
+                steps {
+                    script {
+                        sh 'az vm start -g jenkins-rg -n jenkins-vm'
+                    }
+                    echo 'Wait 60 seconds for the Jenkins Agent to start'
+                    sleep(time: 60, unit: 'SECONDS')
+                }
             }
-        }
 
-        stage('Clone the code source') {
-            agent {
-                label 'Jenkins-Agent'
-            }
-            steps {
-                script {
-                    git url: "${GITHUB_URL}", branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", dir: 'Cinema_Code'
+            stage('Clone the code source') {
+                agent {
+                    label 'Jenkins-Agent'
                 }
-            }      
-        }
+                steps {
+                    script {
+                        git url: "${GITHUB_URL}", branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", dir: 'Cinema_Code'
+                    }
+                }      
+            }
 
-        stage('Build the code') {
-            agent {
-                label 'Jenkins-Agent'
-            }
-            steps {
-                script {
-                    sh 'mvn clean package'
+            stage('Build the code') {
+                agent {
+                    label 'Jenkins-Agent'
+                }
+                steps {
+                    script {
+                        sh 'mvn clean package'
+                    }
                 }
             }
-        }
-    }        
-}
+
+            stage('Stop the Jenkins Agent') {
+                agent {
+                    label 'Jenkins-Master'
+                }
+                steps {
+                    script {
+                        sh 'az vm stop -g jenkins-rg -n jenkins-vm'
+                    }
+                }
+            }
+        }        
+    }
