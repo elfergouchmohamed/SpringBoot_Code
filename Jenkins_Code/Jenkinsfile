@@ -6,6 +6,7 @@
         } 
         agent any
         stages {
+            /*
             stage('Start the Jenkins Agent') {
                 agent { 
                     label 'Jenkins-Master' 
@@ -18,6 +19,7 @@
                     sleep(time: 60, unit: 'SECONDS')
                 }
             }
+            */
 
             stage('Clone the code source') {
                 agent {
@@ -51,7 +53,7 @@
                     }
                 }
             }
-
+            /*
             stage('Stop the Jenkins Agent') {
                 agent {
                     label 'Jenkins-Master'
@@ -62,5 +64,6 @@
                     }
                 }
             }
+            */
         }        
     }
