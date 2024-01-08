@@ -37,7 +37,9 @@
                 }
                 steps {
                     script {
-                        sh 'mvn clean package'
+                        dir('Cinema_Code') {
+                            sh 'mvn clean install -DskipTests'
+                        }
                     }
                 }
             }
