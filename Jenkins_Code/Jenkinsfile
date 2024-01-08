@@ -9,11 +9,7 @@
             PATH = "${M2_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
         } 
         agent any
-
-        tools {
-            maven 'maven'
-            jdk 'jdk17'
-        }
+        
         stages {
             /*
             stage('Start the Jenkins Agent') {
