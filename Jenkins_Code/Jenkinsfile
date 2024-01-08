@@ -13,16 +13,6 @@ pipeline {
     }
 
     stages {
-        stage('Clone the code source') {
-            agent {
-                label 'Jenkins-Agent'
-            }
-            steps {
-                script {
-                    git url: "${GITHUB_URL}", branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", dir: 'Cinema_Code'
-                }
-            }      
-        }
         stage('Build the code source') {
             agent {
                 label 'Jenkins-Agent'
