@@ -27,11 +27,10 @@ pipeline {
             }
             steps {
                 script {
-                    sh '''
-                        export PATH=${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}
-                        echo "Updated PATH = ${PATH}"
-                        mvn --version  # Verify Maven installation
-                    '''
+                    withEnv(['PATH+MAVEN=${MAVEN_HOME}/bin', 'PATH+JAVA=${JAVA_HOME}/bin']) {
+                        sh 'echo "Updated PATH = ${PATH}"'
+                        sh 'mvn --version'  // Verify Maven installation
+                    }
                 }
             }
         }
@@ -42,7 +41,9 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'mvn clean install -DskipTests'
+                    withEnv(['PATH+MAVEN=${MAVEN_HOME}/bin', 'PATH+JAVA=${JAVA_HOME}/bin']) {
+                        sh 'mvn clean install -DskipTests'
+                    }
                 }
             }
         }
