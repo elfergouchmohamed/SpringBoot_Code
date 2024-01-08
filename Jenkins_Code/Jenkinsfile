@@ -3,6 +3,10 @@
             GITHUB_CREDENTIALS = 'dfcb3cb6-d9f8-474e-8a68-f17d371665c9'
             GITHUB_URL = 'https://github.com/elfergouchmohamed/SpringBoot_Code.git'  
             GITHUB_BRANCH = 'master'
+            JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
+            M2_HOME = '/opt/maven'
+            MAVEN_HOME = '/opt/maven'
+            PATH = "${M2_HOME}/bin:${JAVA_HOME}/bin:${PATH}"
         } 
         agent any
 
@@ -34,20 +38,6 @@
                         git url: "${GITHUB_URL}", branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", dir: 'Cinema_Code'
                     }
                 }      
-            }
-
-            stage('Initialize the environment') {
-                agent {
-                    label 'Jenkins-Agent'
-                }
-                steps {
-                    script {
-                        sh '''
-                            echo "PATH = ${PATH}"
-                            echo "M2_HOME = ${M2_HOME}"
-                        '''
-                    }
-                }
             }
             
             stage('Build the code') {
