@@ -30,6 +30,7 @@ pipeline {
                     sh '''
                         export PATH=${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}
                         echo "Updated PATH = ${PATH}"
+                        mvn --version  # Verify Maven installation
                     '''
                 }
             }
