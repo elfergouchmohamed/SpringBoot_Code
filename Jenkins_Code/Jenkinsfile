@@ -6,7 +6,7 @@
         } 
         agent any
         stages {
-            
+            /*
             stage('Start the Jenkins Agent') {
                 agent { 
                     label 'Jenkins-Master' 
@@ -19,7 +19,7 @@
                     sleep(time: 60, unit: 'SECONDS')
                 }
             }
-
+            */
             stage('Clone the code source') {
                 agent {
                     label 'Jenkins-Agent'
@@ -31,29 +31,17 @@
                 }      
             }
             
-            stage('Accept maven license') {
-                agent {
-                    label 'Jenkins-Agent'
-                }
-                steps {
-                    script {
-                        sh 'cd /opt & source /etc/profile.d/maven.sh'
-                    }
-                }
-            }
-
-            /*
             stage('Build the code') {
                 agent {
                     label 'Jenkins-Agent'
                 }
                 steps {
                     script {
-                        sh 'cd /home/jenkins/jenkins-agent/workspace/PFA Project/Cinema_Code & mvn clean package'
+                        sh 'mvn clean package'
                     }
                 }
             }
-            
+            /*
             stage('Stop the Jenkins Agent') {
                 agent {
                     label 'Jenkins-Master'
