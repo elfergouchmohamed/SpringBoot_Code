@@ -23,7 +23,7 @@ pipeline {
                 }
             }      
         }
-        stage('Build') {
+        stage('Build the code source') {
             agent {
                 label 'Jenkins-Agent'
             }
