@@ -7,6 +7,10 @@ pipeline {
 
     agent any
 
+    tools {
+        maven 'maven'
+    }
+
     stages {
         stage('Clone the code source') {
             agent {
@@ -25,10 +29,6 @@ pipeline {
             }
             steps {
                 script {
-                    // Add Maven bin directory to PATH
-                    sh 'export PATH=$PATH:/opt/maven/bin/'
-
-                    // Now 'mvn' should be recognized
                     sh 'mvn clean install -DskipTests'
                 }
             }
