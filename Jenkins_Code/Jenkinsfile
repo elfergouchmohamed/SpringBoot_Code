@@ -6,10 +6,7 @@ pipeline {
     }
 
     agent any
-
-    tools {
-        maven 'maven'
-    }
+    
 
     stages {
         stage('Clone the code source') {
@@ -29,7 +26,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'mvn clean install -DskipTests'
+                    sh 'source /etc/profile.d/maven.sh && mvn clean install -DskipTests'
                 }
             }
         }
