@@ -1,73 +1,49 @@
-    pipeline {
-        environment {
-            GITHUB_CREDENTIALS = 'dfcb3cb6-d9f8-474e-8a68-f17d371665c9'
-            GITHUB_URL = 'https://github.com/elfergouchmohamed/SpringBoot_Code.git'  
-            GITHUB_BRANCH = 'master'
-            MAVEN_HOME = '/opt/maven'
-            JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
-        } 
-        agent any
-        
-        stages {
-            /*
-            stage('Start the Jenkins Agent') {
-                agent { 
-                    label 'Jenkins-Master' 
-                }
-                steps {
-                    script {
-                        sh 'az vm start -g jenkins-rg -n jenkins-vm'
-                    }
-                    echo 'Wait 60 seconds for the Jenkins Agent to start'
-                    sleep(time: 60, unit: 'SECONDS')
-                }
-            }
-            */
-            stage('Clone the code source') {
-                agent {
-                    label 'Jenkins-Agent'
-                }
-                steps {
-                    script {
-                        git url: "${GITHUB_URL}", branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", dir: 'Cinema_Code'
-                    }
-                }      
-            }
-            stage('Initialize the environment') {
-                agent {
-                    label 'Jenkins-Agent'
-                }
-                steps {
-                    script {
-                        sh '''
-                            echo "MAVEN_HOME = ${MAVEN_HOME}"
-                            echo "JAVA_HOME = ${JAVA_HOME}"
-                        '''
-                    }
-                 }
-            }
-            
-            stage('Build the code') {
-                agent {
-                    label 'Jenkins-Agent'
-                }
-                steps {
-                    script {
-                        sh 'mvn clean install -DskipTests'
-                    }
-                }
-            }
-            /*
-            stage('Stop the Jenkins Agent') {
-                agent {
-                    label 'Jenkins-Master'
-                }
-                steps {
-                    script {
-                        sh 'az vm stop -g jenkins-rg -n jenkins-vm'
-                    }
-                }
-            }
-            */
-        }        
+pipeline {
+    environment {
+        GITHUB_CREDENTIALS = 'dfcb3cb6-d9f8-474e-8a68-f17d371665c9'
+        GITHUB_URL = 'https://github.com/elfergouchmohamed/SpringBoot_Code.git'
+        GITHUB_BRANCH = 'master'
+        MAVEN_HOME = '/opt/maven'
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
     }
+
+    agent any
+
+    stages {
+        stage('Clone the code source') {
+            agent {
+                label 'Jenkins-Agent'
+            }
+            steps {
+                script {
+                    git url: "${GITHUB_URL}", branch: "${GITHUB_BRANCH}", credentialsId: "${GITHUB_CREDENTIALS}", dir: 'Cinema_Code'
+                }
+            }      
+        }
+
+        stage('Initialize the environment') {
+            agent {
+                label 'Jenkins-Agent'
+            }
+            steps {
+                script {
+                    sh '''
+                        export PATH=${MAVEN_HOME}/bin:${JAVA_HOME}/bin:${PATH}
+                        echo "Updated PATH = ${PATH}"
+                    '''
+                }
+            }
+        }
+
+        stage('Build the code') {
+            agent {
+                label 'Jenkins-Agent'
+            }
+            steps {
+                script {
+                    sh 'mvn clean install -DskipTests'
+                }
+            }
+        }
+    }
+}
