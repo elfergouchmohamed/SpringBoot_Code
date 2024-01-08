@@ -35,6 +35,10 @@
                 agent {
                     label 'Jenkins-Agent'
                 }
+                environment {
+                    PATH = "/opt/maven/bin:${PATH}"
+                    M2_HOME = "/opt/maven"
+                }
                 steps {
                     script {
                         sh 'mvn clean install -DskipTests'
