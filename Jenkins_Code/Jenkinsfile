@@ -6,7 +6,10 @@ pipeline {
     }
 
     agent any
-    
+
+    tools {
+        maven 'MAVEN'
+    }
 
     stages {
         stage('Clone the code source') {
@@ -19,14 +22,10 @@ pipeline {
                 }
             }      
         }
-
-        stage('Build the code') {
-            agent {
-                label 'Jenkins-Agent'
-            }
+        stage('Build') {
             steps {
-                script {
-                    sh 'source /etc/profile.d/maven.sh && mvn clean install -DskipTests'
+                dir('Cinema_Code'){
+                    sh 'mvn clean install -DskipTests'
                 }
             }
         }
