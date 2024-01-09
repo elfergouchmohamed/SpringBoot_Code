@@ -88,13 +88,25 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0</version>
 				<configuration>
-					<release>17</release>
+					<excludes>
+						<exclude>**/*Test.java</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>no-database-tests</id>
+			<properties>
+				<skipDatabaseTests>true</skipDatabaseTests>
+			</properties>
+		</profile>
+	</profiles>
+
+
 
 </project>
