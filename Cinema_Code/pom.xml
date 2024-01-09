@@ -92,7 +92,7 @@
 				<version>3.0.0</version>
 				<configuration>
 					<excludes>
-						<exclude>**/*Test.java</exclude>
+						<exclude>ma/emsi/centre/cinema/entities/**/*Test.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
